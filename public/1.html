@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <title>배열 (Array) 함수</title>
+<link href="main.css" rel="stylesheet"></head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="/"></a>
+    <ul class="menu">
+      <li><a href="/">Javascript</a></li>
+      <li><a href="/category/javascript/beginner.html" href="javascript:void(0);">초급</a></li>
+      <li><a href="/category/javascript/intermediate.html" href="javascript:void(0);">중급</a></li>
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">고급</a></li>
+      <!-- <li><a href="/category/javascript/advanced.html" class="disabled" href="javascript:void(0);">고급</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">플러그인 만들기</a></li>
+      <!-- <li><a href="/category/javascript/plugin.html" class="disabled" href="javascript:void(0);">플러그인 만들기</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">저장소</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="wrap">
+  <main>
+    <article class="header">
+  <div>
+    <h1>Array (배열) 함수</h1>
+  </div>
+</article>
+    <div class="container">
+      <div class="content post">
+        <h2>목차</h2>
+        <div class="items-list">
+          <ol>
+            <li>push</li>
+            <li>pop</li>
+            <li>shift</li>
+            <li>unshift</li>
+            <li>slice</li>
+            <li>splice</li>
+            <li>concat</li>
+            <li>isArray</li>
+            <li>indexOf</li>
+            <li>lastIndexOf</li>
+            <li>join</li>
+            <li>reverse</li>
+            <li>sort</li>
+            <li>forEach</li>
+            <li>map</li>
+            <li>filter</li>
+            <li>every</li>
+            <li>reduce</li>
+            <li>reduceRight</li>
+            <li>some</li>
+            <li>copyWithin (es6)</li>
+            <li>fill (es6)</li>
+            <li>includes (es6)</li>
+            <li>entries (es6)</li>
+            <li>find (es6)</li>
+            <li>findIndex (es6)</li>
+            <li>from (es6)</li>
+            <li>of (es6)</li>
+          </ol>
+        </div>
+        <div class="item">
+          <h3>push</h3>
+          <h4>array.push(item1 [, item2 [, item3 [, ...]]])</h4>
+          <h5>itemN - 추가할 요소</h5>
+          <p>
+            배열의 마지막에 요소를 추가하고, 길이를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  var length = subjects.push('역사');
+
+  subjects; // ['국어', '수학', '사회', '과학', '영어', '역사']
+  length;   // 6
+
+  length = subjects.push('물리', '화학');
+
+  subjects; // ['국어', '수학', '사회', '과학', '영어', '역사', '물리', '화학']
+  length;   // 8
+    
+</code></pre></div>
+
+        <div class="item">
+          <h3>pop</h3>
+          <h4>array.pop()</h4>
+          <p>
+            배열에서 마지막 요소를 삭제하고, 삭제한 요소를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  var popped = subjects.pop();
+  
+  subjects; // ['국어', '수학', '사회', '과학']
+  popped;   // '영어'
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>shift</h3>
+          <h4>array.shift()</h4>
+          <p>
+            배열의 첫 번째 요소를 삭제하고, 삭제한 요소를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  var shifted = subjects.shift();
+  
+  subjects; // ['수학', '사회', '과학', '영어']
+  shifted;  // '국어'
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>unshift</h3>
+          <h4>array.unshift(item1 [, item2 [, ...]])</h4>
+          <p>
+            배열의 앞에 요소를 추가하고, 길이를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  var length = subjects.unshift('역사');
+  
+  subjects; // ['역사', '국어', '수학', '사회', '과학', '영어']
+  length;   // 6
+  
+  length = subjects.unshift('물리', '화학');
+  
+  subjects; // ['물리', '화학', '역사', '국어', '수학', '사회', '과학', '영어']
+  length; 	// 8
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>slice</h3>
+          <h4>array.slice([startIndex [, endIndex]])</h4>
+          <h5>startIndex - 복사할 시작 인덱스</h5>
+          <h5>endIndex - 복사할 끝 인덱스</h5>
+          <p>
+            startIndex 방부터 endIndex 방 전까지 얕은복사한 것을 반환한다.
+            <br/>
+            startIndex 의 default 는 0 이며, endIndex 는 배열의 길이와 같다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  
+  subjects.slice();     // ['국어', '수학', '사회', '과학', '영어']
+  subjects.slice(0);    // ['국어', '수학', '사회', '과학', '영어']
+  subjects.slice(0, 3); // ['국어', '수학', '사회']
+  subjects.slice(1, 3); // ['수학', '사회']
+  subjects.slice(2);    // ['사회', '과학', '영어']
+  subjects.slice(6);    // []
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>splice</h3>
+          <h4>array.splice(startIndex [, deleteCount, [, item1 [, item2 [, ...]]]])</h4>
+          <h5>startIndex - 삭제할 시작 인덱스</h5>
+          <h5>deleteCount - 삭제할 요소 개수</h5>
+          <h5>itemN - 삽입 할 요소</h5>
+          <p>
+            배열에서 startIndex 방부터 deleteCount 만큼 삭제하고, 삭제한 요소를 반환한다.
+            그리고 item1, item2, ... 등을 삽입한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  var deleteSubjects = subjects.splice(1);
+  
+  subjects;       // ['국어']
+  deleteSubjects; // ['수학', '사회', '과학', '영어']	
+  
+  
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  var deleteSubjects = subjects.splice(1, 2);
+  
+  subjects;       // ['국어', '과학', '영어']
+  deleteSubjects; // ['수학', '사회']
+  
+  
+  var subjects = ['국어', '수학', '사회'];
+  var deleteSubjects = subjects.splice(1, 0, '역사');
+  
+  subjects;       // ['국어', '역사', '수학', '사회']
+  deleteSubjects; // []
+  
+  
+  var subjects = ['국어', '수학', '사회'];
+  var deleteSubjects = subjects.splice(1, 1, '역사', '물리', '화학');
+  
+  subjects;       // ['국어', '역사', '물리', '화학', '사회']
+  deleteSubjects; // ['수학]
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>concat</h3>
+          <h4>array.concat(items1 [, item2 [, ...]])</h4>
+          <h5>itemN - 합칠 배열 또는 값</h5>
+          <p>
+            배열에 인자로 넘어온 값 또는 배열을 합친 후 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회'];
+  var newSubjects = subjects.concat(['과학', '영어']);
+  
+  subjects;     // ['국어', '수학', '사회']
+  newSubjects;  // ['국어', '수학', '사회', '과학', '영어']
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>isArray</h3>
+          <h4>Array.isArray(items)</h4>
+          <h5>items - Array 여부를 확인할 값</h5>
+          <p>
+            Array 여부를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var test1 = [1, 2, 3];
+  var test2 = 5;
+  
+  Array.isArray(test1);		// true
+  Array.isArray(test2);		// false
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>indexOf</h3>
+          <h4>array.indexOf(searchItem)</h4>
+          <h5>searchItem - 검색할 요소</h5>
+          <p>
+            searchItem 과 같은 요소를 찾고 해당 인덱스를 반환한다. 없으면 -1을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  
+  subjects.indexOf('국어');	// 0
+  subjects.indexOf('과학');	// 3
+  subjects.indexOf('역사');	// -1
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>lastIndexOf</h3>
+          <h4>array.lastIndexOf(searchItem)</h4>
+          <h5>searchItem - 검색할 요소</h5>
+          <p>
+            searchItem 과 같은 요소를 뒤에서부터 찾고 해당 인덱스를 반환한다. 없으면 -1을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '국어', '영어'];
+  
+  subjects.lastIndexOf('국어');	// 3
+  subjects.lastIndexOf('수학');	// 1
+  subjects.lastIndexOf('역사');	// -1
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>join</h3>
+          <h4>array.join(separator)</h4>
+          <h5>separator - 구분자</h5>
+          <p>
+            배열의 요소들을 문자열로 변환하여 separator 를 구분자로 하나의 문자열로 연결한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회'];	
+  
+  subjects.join(', ');	// '국어, 수학, 사회'
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>reverse</h3>
+          <h4>array.reverse()</h4>
+          <p>
+            배열의 순서를 반전시킨다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  subjects.reverse();
+
+  subjects; 	// ['영어', '과학', '사회', '수학', '국어']
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>sort</h3>
+          <h4>array.sort([compareFunction])</h4>
+          <p>
+            compareFunction 을 기준으로 정렬한다. 생략 시 유니코드에 따라 정렬된다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '사회', '과학', '영어'];
+  subjects.sort();
+  
+  subjects; // ['과학', '국어', '사회', '수학', '영어']
+
+
+  var arr = [1,5,3,2,4];
+  arr.sort(function (a, b) {
+    return a - b;
+  });
+  
+  arr;  // [1, 2, 3, 4, 5]
+
+</code></pre></div>
+
+        <div class="item">
+          <h3>forEach</h3>
+          <h4>array.forEach(callback)</h4>
+          <h5>callback - data (요소 값), index (요소 인덱스), array (호출 배열)</h5>
+          <p>
+            배열에 있는 순서대로 각 요소에 대해 callback 을 호출한다.
+          </p>
+<pre><code class="language-javascript">
+  var subjects = ['국어', '수학', '영어'];
+  subjects.forEach(function (data, index, array) {
+    console.log(data, index, array);
+  });
+  
+  // 국어, 0, ['국어', '수학', '영어']
+  // 수학, 1, ['국어', '수학', '영어']
+  // 영어, 2, ['국어', '수학', '영어']
+
+</code></pre>
+          <p class="alert">
+            forEach 문은 stop 또는 break 가 불가능하다.
+          </p>
+        </div>
+        <div class="item">
+          <h3>map</h3>
+          <h4>array.map(callback)</h4>
+          <h5>callback - data (요소 값), index (요소 인덱스)</h5>
+          <p>
+            각 요소에 대해 callback 을 호출하고, 그 결과에 맞는 새로운 배열을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var numbers = [1, 2, 3, 4].map(function (number, index) {
+    return number * 2;
+  });
+  
+  numbers; // [2, 4, 6, 8]
+
+</code></pre></div>
+        <div class="item">
+          <h3>filter</h3>
+          <h4>array.filter(callback)</h4>
+          <h5>callback - data (요소 값), index (요소 인덱스)</h5>
+          <p>
+            각 요소에 대해 callback 을 호출하고, callback 결과가 참인 경우의 요소들을 모아 새로운 배열을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var arr = ['A', 1, 'B', 2];
+  var filteredArr = arr.filter(function (d, i) {
+    return typeof d === 'number';
+  });
+
+  filteredArr; // [1, 2]
+
+</code></pre></div>
+        <div class="item">
+          <h3>every</h3>
+          <h4>array.every(callback)</h4>
+          <h5>callback - data (요소 값), index (요소 인덱스)</h5>
+          <p>
+            callback 결과를 모두 만족할 경우 true 를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var arr = ['A', 1, 'B', 2];
+  var result = arr.every(function (d, i) {
+    return d !== undefined;
+  });
+
+  result; // true
+
+
+  var result = arr.every(function (d, i) {
+    return typeof d === 'number';
+  });
+
+  result; // false
+
+</code></pre></div>
+        <div class="item">
+          <h3>reduce</h3>
+          <h4>array.reduce(callback, initialValue)</h4>
+          <h5>callback - accumulate (누적 값), data (요소 값), index (요소 인덱스)</h4>
+          <h5>initialValue - 초기 값</h4>
+          <p>
+            배열의 왼쪽에서 오른쪽으로 callback 을 호출하며, 단일 값으로 줄인다.
+            <br />
+            initialValue 가 없을 경우: accumulate 에 배열 첫 번째 값, data 에는 두 번째 값이 들어간다.
+            <br />
+            initialValue 가 있을 경우: accumulate 에 initialValue, data 에는 첫 번째 값이 들어간다.
+          </p>
+<pre><code class="language-javascript">
+  var total = [1, 2, 3, 4, 5].reduce(function (accumulate, d, i) {
+    return accumulate + d;
+  });
+  
+  // 1 + 2 = 3
+  // 3 + 3 = 6
+  // 6 + 4 = 10
+  // 10 + 5 = 15
+  total; // 15
+
+
+  var total = [1, 2, 3, 4, 5].reduce(function (accumulate, d, i) {
+    return accumulate + d;
+  }, 0);
+
+  // 0 + 1 = 1
+  // 1 + 2 = 3
+  // 3 + 3 = 6
+  // 6 + 4 = 10
+  // 10 + 5 = 15
+  total; // 15
+
+
+</code></pre></div>
+        <div class="item">
+          <h3>reduceRight</h3>
+          <h4>array.reduceRight(callback, initialValue)</h4>
+          <h5>callback - accumulate (누적 값), data (요소 값), index (요소 인덱스)</h4>
+          <h5>initialValue - 초기 값</h4>
+          <p>
+            배열의 오른쪽에서 왼쪽으로 callback 을 호출하며, 단일 값으로 줄인다.
+            <br />
+            initialValue 가 없을 경우: accumulate 에 배열 마지막 값, data 에는 마지막 전 값이 들어간다.
+            <br />
+            initialValue 가 있을 경우: accumulate 에 initialValue, data 에는 마지막 값이 들어간다.
+          </p>
+<pre><code class="language-javascript">
+  var total = [1, 2, 3, 4, 5].reduceRight(function (accumulate, d, i) {
+    return accumulate + d;
+  });
+  
+  // 5 + 4 = 9
+  // 9 + 3 = 12
+  // 12 + 2 = 14
+  // 14 + 1 = 15
+  total; // 15
+
+
+  var total = [1, 2, 3, 4, 5].reduceRight(function (accumulate, d, i) {
+    return accumulate + d;
+  }, 0);
+
+  // 0 + 5 = 5
+  // 5 + 4 = 9
+  // 9 + 3 = 12
+  // 12 + 2 = 14
+  // 14 + 1 = 15
+  total; // 15
+
+</code></pre></div>
+        <div class="item">
+          <h3>some</h3>
+          <h4>array.some(callback)</h4>
+          <h5>callback - data (요소 값), index (요소 인덱스)</h4>
+          <p>
+            callback 결과 중 하나라도 만족한다면 true 를 반환한다. 만족하는 즉시 함수가 종료된다.
+          </p>
+<pre><code class="language-javascript">
+  var checkZero = [1, 2, 0, 4, 5].some(function (d, i) {
+    return d === 0;
+  });
+
+  checkZero;  // true
+
+
+  var checkZero = [1, 2, 3, 4, 5].some(function (d, i) {
+    return d === 0;
+  });
+
+  checkZero;  // false
+
+</code></pre></div>
+        <div class="item">
+          <h3>copyWithin</h3>
+          <h4>array.copyWithin(startIndex [, copyStartIndex [, copyEndIndex]])</h4>
+          <h5>startIndex - 복사한 배열을 덮어쓰기 시작할 인덱스</h4>
+          <h5>copyStartIndex - 덮어쓰기 위한 배열의 복사를 시작할 인덱스</h4>
+          <h5>copyEndIndex - 덮어쓰기 위한 배열의 복사를 끝낼 인덱스</h4>
+          <p>
+            배열 내의 지정된 요소들을 동일한 배열 내에서 복사한다.
+          </p>
+<pre><code class="language-javascript">
+  [1, 2, 3, 4, 5].copyWithin(1);  // [1, 1, 2, 3, 4]
+  [1, 2, 3, 4, 5].copyWithin(2);  // [1, 2, 1, 2, 3]
+  [1, 2, 3, 4, 5].copyWithin(-1); // [1, 2, 3, 4, 1]
+  [1, 2, 3, 4, 5].copyWithin(-2); // [1, 2, 3, 1, 2]
+
+  [1, 2, 3, 4, 5].copyWithin(1, 0); // [1, 1, 2, 3, 4]
+  [1, 2, 3, 4, 5].copyWithin(1, 1); // [1, 2, 3, 4, 5]
+
+  [1, 2, 3, 4, 5].copyWithin(1, 0, 2);  // [1, 1, 2, 4, 5]
+  [1, 2, 3, 4, 5].copyWithin(-3, 1, 3); // [1, 2, 2, 3, 5]
+
+</code></pre></div>
+        <div class="item">
+          <h3>fill</h3>
+          <h4>array.fill(data [, startIndex [, endIndex]])</h4>
+          <h5>data - 채울 값</h4>
+          <h5>startIndex - 값을 채우기 시작할 인덱스</h4>
+          <h5>endIndex - 값을 채우기 위한 마지막 인덱스</h4>
+          <p>
+            배열 안의 시작 인덱스부터 끝 인덱스까지의 요소값을 지정된 정적 값으로 채웁니다.
+          </p>
+<pre><code class="language-javascript">
+  [0, 0, 0, 0, 0].fill(3);        // [3, 3, 3, 3, 3]
+  [0, 0, 0, 0, 0].fill(3, 1);     // [0, 3, 3, 3, 3]
+  [0, 0, 0, 0, 0].fill(3, 3);     // [0, 0, 0, 3, 3]
+  [0, 0, 0, 0, 0].fill(3, 1, 3);  // [0, 3, 3, 0, 0]
+
+</code></pre></div>
+        <div class="item">
+          <h3>includes</h3>
+          <h4>array.includes(data [, startIndex])</h4>
+          <h5>data - 포함되어있는지 검색할 값</h4>
+          <h5>startIndex - 검색하기 위한 시작 인덱스</h4>
+          <p>
+            값이 포함되어 있을 경우 true 를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  [1, 2, 3, 4, 5].includes(3);    // true
+  [1, 2, 3, 4, 5].includes(3, 0); // true
+  [1, 2, 3, 4, 5].includes(3, 3); // false
+
+</code></pre></div>
+        <div class="item">
+          <h3>entries</h3>
+          <h4>array.entries()</h4>
+          <p>
+            배열의 각 인덱스에 대한 키, 값 쌍을 포함하는 새로운 배열 반복자 객체를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var iterator = ['가', '나', '다'].entries();
+
+  iterator.next();  { value: [0, '가'], done: false }
+  iterator.next();  { value: [1, '나'], done: false }
+  iterator.next();  { value: [2, '다'], done: false }
+  iterator.next();  { value: undefined, done: true }
+
+
+  var iterator = ['가', '나', '다'].entries();
+  for (var e of iterator) {
+    console.log(e);
+  }
+
+  // [0, '가']
+  // [1, '나']
+  // [2, '다']
+
+
+  var iterator = ['가', '나', '다'].entries();
+  var done = false;
+  while(!done) {
+    var result = iterator.next();
+    done = result.done;
+
+    if (!done) {
+      console.log(result);
+    }
+  }
+
+  // { value: [0, '가'], done: false }
+  // { value: [1, '나'], done: false }
+  // { value: [2, '다'], done: false }
+
+</code></pre></div>
+        <div class="item">
+          <h3>find</h3>
+          <h4>array.find(callback)</h4>
+          <p>
+            검색조건에 맞을 경우 해당 요소를 반환한다. 없을 경우 undefined 를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var personArr = [
+    { name: 'Bob', job: 'engineer' },
+    { name: 'Sujan', job: 'student' },
+    { name: 'Jane', job: 'nurse' }
+  ];
+
+  var result = personArr.find(function (person) { 
+    return person.job === 'student';
+  });
+
+  result; // { name: 'Sujan', job: 'student' }
+
+
+  var result = personArr.find(function (person) { 
+    return person.job === 'actor';
+  });
+
+  result; // undefined
+
+</code></pre></div>
+        <div class="item">
+          <h3>findIndex</h3>
+          <h4>array.findIndex(callback)</h4>
+          <p>
+            검색조건에 맞을 경우 해당 요소의 인덱스를 반환한다. 없을 경우 -1 을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var personArr = [
+    { name: 'Bob', job: 'engineer' },
+    { name: 'Sujan', job: 'student' },
+    { name: 'Jane', job: 'nurse' }
+  ];
+
+  var result = personArr.findIndex(function (person) { 
+    return person.job === 'student';
+  });
+
+  result; // 1
+
+
+  var result = personArr.findIndex(function (person) { 
+    return person.job === 'actor';
+  });
+
+  result; // -1
+
+</code></pre></div>
+        <div class="item">
+          <h3>from</h3>
+          <h4>Array.from(listObject)</h4>
+          <h5>listObject - 배열의 형태를 가지고 있는 객체</h5>
+          <p>
+            배열의 형태, 순회 가능한 객체로부터 얕은 복사를 한 Array 객체를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var array = Array.from(document.querySelectorAll('div'));
+
+</code></pre></div>
+        <div class="item">
+          <h3>of</h3>
+          <h4>Array.of(item1 [, item2 [, item3 [, ...]]])</h4>
+          <p>
+            인자의 수나 유형에 관계없이 가변 인자를 갖는 새 Array 인스턴스를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  Array.of(5);          // [5]
+  Array.of(5, 10, 15);  // [5, 10, 15]
+
+</code></pre></div>
+      </div>
+    </div> 
+  </main>
+</div>
+<footer>
+  <p>
+    프론트엔드 개발자
+    <br />
+    E-mail: nyg4628@gmail.com
+  </p>
+</footer>
+<script>
+  window.addEventListener('load', function () {
+    G.activeMenu(1);
+  });
+</script>
+<script src="main.bundle.js"></script></body>
+</html>

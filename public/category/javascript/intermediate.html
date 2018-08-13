@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <title>자바스크립트 중급</title>
+<link href="../../main.css" rel="stylesheet"></head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="/"></a>
+    <ul class="menu">
+      <li><a href="/">Javascript</a></li>
+      <li><a href="/category/javascript/beginner.html" href="javascript:void(0);">초급</a></li>
+      <li><a href="/category/javascript/intermediate.html" href="javascript:void(0);">중급</a></li>
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">고급</a></li>
+      <!-- <li><a href="/category/javascript/advanced.html" class="disabled" href="javascript:void(0);">고급</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">플러그인 만들기</a></li>
+      <!-- <li><a href="/category/javascript/plugin.html" class="disabled" href="javascript:void(0);">플러그인 만들기</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">저장소</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="wrap">
+  <main>
+    <article class="header">
+  <div>
+    <h1>자바스크립트 중급</h1>
+  </div>
+</article>
+    <div class="container">
+      <div class="content">
+        <section class="post-list-pnl">
+  <ul id="post-list">
+    
+  </ul>
+  <div id="pager" class="pager-pnl">
+
+</div>
+</section>
+      </div>
+    </div> 
+  </main>
+</div>
+<footer>
+  <p>
+    프론트엔드 개발자
+    <br />
+    E-mail: nyg4628@gmail.com
+  </p>
+</footer>
+<script>
+  window.addEventListener('load', function () {
+    G.activeMenu(2);
+    G.connectPostToPager(10, 12);
+  });
+</script>
+<script src="../../main.bundle.js"></script></body>
+</html>

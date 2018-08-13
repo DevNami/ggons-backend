@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <title>동적 태그 생성 및 추가</title>
+<link href="main.css" rel="stylesheet"></head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="/"></a>
+    <ul class="menu">
+      <li><a href="/">Javascript</a></li>
+      <li><a href="/category/javascript/beginner.html" href="javascript:void(0);">초급</a></li>
+      <li><a href="/category/javascript/intermediate.html" href="javascript:void(0);">중급</a></li>
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">고급</a></li>
+      <!-- <li><a href="/category/javascript/advanced.html" class="disabled" href="javascript:void(0);">고급</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">플러그인 만들기</a></li>
+      <!-- <li><a href="/category/javascript/plugin.html" class="disabled" href="javascript:void(0);">플러그인 만들기</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">저장소</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="wrap">
+  <main>
+    <article class="header">
+  <div>
+    <h1>동적 태그 생성 및 추가</h1>
+  </div>
+</article>
+    <div class="container">
+      <div class="content post">
+        <p>
+          동적으로 DOM 을 추가하는 경우 간단한 것들은 크게 의미가 없지만
+          다수의 DOM 을 추가해야 한다면 어떻게 하는 것이 가장 성능상으로 좋을까?
+        </p>
+        <h2>createElement vs innerHTML</h2>
+        <p>
+          createElement 와 innerHTML 을 사용하여
+          아래의 결과가 나오도록 tbody 내부를 동적으로 추가해 보도록 하겠다.
+        </p>
+<pre><code class="language-html">
+  &lt;button id="add" type="button"&gt;add&lt;/button&gt;
+  &lt;div id="grid"&gt;
+    &lt;table style="width: 300px;"&gt;
+      &lt;colgroup&gt;
+        &lt;col style="width: 20%;" /&gt;
+        &lt;col style="width: 20%;" /&gt;
+        &lt;col style="width: 20%;" /&gt;
+        &lt;col style="width: 20%;" /&gt;
+        &lt;col style="width: 20%;" /&gt;
+      &lt;/colgroup&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;0, 0&lt;/td&gt;&lt;td&gt;0, 1&lt;/td&gt;&lt;td&gt;0, 2&lt;/td&gt;&lt;td&gt;0, 3&lt;/td&gt;&lt;td&gt;0, 4&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;1, 0&lt;/td&gt;&lt;td&gt;1, 1&lt;/td&gt;&lt;td&gt;1, 2&lt;/td&gt;&lt;td&gt;1, 3&lt;/td&gt;&lt;td&gt;1, 4&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;2, 0&lt;/td&gt;&lt;td&gt;2, 1&lt;/td&gt;&lt;td&gt;2, 2&lt;/td&gt;&lt;td&gt;2, 3&lt;/td&gt;&lt;td&gt;2, 4&lt;/td&gt;
+        &lt;/tr&gt; 
+        ...
+        ...
+        &lt;tr&gt;
+          &lt;td&gt;4999, 0&lt;/td&gt;&lt;td&gt;4999, 1&lt;/td&gt;&lt;td&gt;4999, 2&lt;/td&gt;&lt;td&gt;4999, 3&lt;/td&gt;&lt;td&gt;4999, 4&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+
+</code></pre>
+        <p>
+          add 버튼을 누를 경우 DOM 을 추가 할 것이며, 
+          performance 를 통해서 시간측정을 할 것이다.
+        </p>
+<pre><code class="language-javascript">
+  var grid = document.getElementById('grid');
+  var gridTable = grid.firstElementChild;
+  var gridTBody = gridTable.tBodies[0];
+
+  document.getElementById('add').addEventListener('click', function () {
+    var startTime = performance.now();
+
+    // ...
+    // ...
+
+    var endTime = performance.now();
+    console.log((endTime - startTime) + 'ms');
+  });
+
+</code></pre>
+        <h3>createElement</h3>
+<pre><code class="language-javascript">
+  var fragment = document.createDocumentFragment();
+  var trEle;
+  var tdEle;
+  for (var i = 0; i < 5000; i++) {
+    trEle = document.createElement('tr');
+    for (var j = 0; j < 5; j++) {
+      tdEle = document.createElement('td');
+      tdEle.textContent = i + ', ' + j;
+      trEle.appendChild(tdEle);
+    }
+
+    fragment.appendChild(trEle);
+  }
+
+  gridTBody.appendChild(fragment);
+
+</code></pre>
+        <p>
+          for 문이 돌 때마다 createElement 를 통해서 객체를 생성하고
+          상위 요소에 appendChild 해주었다.
+        </p>
+        <h3>innerHTML</h3>
+<pre><code class="language-javascript">
+  var str = '';
+  for (var i = 0; i < 5000; i++) {
+    str += '<tr>';
+    for (var j = 0; j < 5; j++) {
+      str += '<td>';
+      str += i + ', ' + j;
+      str += '</td>';
+    }
+    str += '</tr>';
+  }
+
+  gridTBody.innerHTML = str;
+
+</code></pre>
+        <p>
+          문자열 조합과 innerHTML 을 사용하였다.
+        </p>
+        <br />
+        <h4>
+          시간 측정 결과
+        </h4>
+        <table>
+          <colgroup>
+            <col style="width: 150px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <th class="f-l">createElement</th>
+              <td>5.446s</td>
+              <td>5.795s</td>
+              <td>5.565s</td>
+            </tr>
+            <tr>
+              <th class="f-l">innerHTML</th>
+              <td>0.886s</td>
+              <td>0.854s</td>
+              <td>0.881s</td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <p>
+          createElement 보다 innerHTML 을 사용한 것이 대략 6.5 배 정도 빠른것으로 나타났다.
+          DOM 작업은 매우 무거운 작업이다. 소소하게 사용한다면 티는 나지 않지만 많으면 많을수록
+          그 차이는 확연이 드러날 것이다. innerHTML 은 한번의 동작으로 저 많은 DOM 을 그렸다.
+          하지만 createElement, appendChild 는 딱 봐도 수천번의 작업이 발생하였다.
+          반복문 안에서 DOM 함수를 사용하는 것은 매우 좋지 않다.
+          <br />
+          매번 createElement 를 하지않고 DOM 을 cloneNode 하게 된다면 어떨까?
+          결과는 cloneNode 가 더 빠르다 라고 할 수 있다. 하지만 눈에 띄게 차이가 있지는 않다.
+        </p>
+
+        <br />
+        <br />
+        <h2>문자열 조합 vs join</h2>
+        <p>
+          여기서 한번 더 고민을 하게 될 것이다. 문자열 조합이 빠를까? Array join 을 통해서
+          문자열로 만드는게 더 빠를까? 문자열 조합은 했으니 join 을 사용한 소스를 작성해보도록 하겠다.
+        </p>
+        <h3>join</h3>
+<pre><code class="language-javascript">
+  var arr = [];
+  for (var i = 0; i < 5000; i++) {
+    arr.push('<tr>');
+    for (var j = 0; j < 5; j++) {
+      arr.push('<td>');
+      arr.push(i + ', ' + j);
+      arr.push('</td>');
+    }
+    arr.push('</tr>');
+  }
+
+  gridTBody.innerHTML = arr.join('');
+
+</code></pre>
+        <br />
+        <h4>
+          시간 측정 결과
+        </h4>
+        <table>
+          <colgroup>
+            <col style="width: 150px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <th class="f-l">innerHTML</th>
+              <td>0.886s</td>
+              <td>0.854s</td>
+              <td>0.881s</td>
+            </tr>
+            <tr>
+              <th class="f-l">join</th>
+              <td>0.883s</td>
+              <td>0.858s</td>
+              <td>0.849s</td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <p>
+          결과를 보면 서로 차이가 없다라고 말할 수 있을 정도이다.
+          나는 깔끔한 소스를 원할 경우에는 join 을 사용하고
+          그 외에는 문자열 조합을 사용하고 있다.
+        </p>
+        <br />
+        <br />
+        <h2>innerHTML vs insertAdjacentHTML</h2>
+        <p>
+          지금까지 5000개의 데이터를 추가해 보았다. 단순 보기용 데이터라면 여기서 끝이다.
+          하지만 여기서 데이터를 더 추가해야할 경우가 생긴다면 어떻게 해야 할까?
+        </p>
+<pre><code class="language-javascript">
+  function getStr() {
+    var str = '';
+    for (var i = 0; i < 5000; i++) {
+      str += '<tr>';
+      for (var j = 0; j < 5; j++) {
+        str += '<td>';
+        str += i + ', ' + j;
+        str += '</td>';
+      }
+      str += '</tr>';
+    }
+    
+    return str;
+  }
+
+  gridTBody.innerHTML = getStr();
+  gridTBody.innerHTML = gridTBody.innerHTML + getStr();
+
+</code></pre>
+        <br />
+        <p>
+          혹시 위와 같이 innerHTML 로 값을 가져오고 다음 추가될 데이터를 합친 후에
+          다시 innerHTML 을 하려고 하지는 않았는가? 
+          이렇게 할 경우 내부에서는 싹 지우고 다시 DOM 을 그리는 작업을 할 것이다.
+          이미 그려져있던 것을 지우고 다시 그릴 필요가 있을까?
+          insertAdjacentHTML 을 사용한다면 이미 그려진 것을 대상으로
+          추가를 할 수 있다.
+        </p>
+<pre><code class="language-javascript">
+  gridTBody.innerHTML = getStr();
+  gridTBody.insertAdjacentHTML('beforeend', getStr());
+
+</code></pre>
+        <br />
+        <h4>
+          시간 측정 결과
+        </h4>
+        <table>
+          <colgroup>
+            <col style="width: 180px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+          </colgroup>
+          <tbody>
+            <tr>
+              <th class="f-l">innerHTML</th>
+              <td>2.300s</td>
+              <td>2.314s</td>
+              <td>2.244s</td>
+            </tr>
+            <tr>
+              <th class="f-l">insertAdjacentHTML</th>
+              <td>0.851s</td>
+              <td>0.886s</td>
+              <td>0.913s</td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <p>
+          5000개의 데이터를 다시 추가 했을 경우 innerHTML 의 경우에는 2.5배 이상 느려진 것을 볼 수 있다.
+          하지만 insertAdjacentHTML 은 처음과 거의 동일한 시간이 걸렸다. insertAdjacentHTML 의 경우에는
+          기존의 DOM 은 그대로 두고 추가를 하기 때문에 이전과 비슷한 시간이 나왔다.
+          insertAdjacentHTML 를 통해서 element 앞(beforebegin), 뒤(afterend), element 안의 첫번째(afterbegin), 마지막(beforeend)에 추가가 가능하다.
+          이 외에도 insertAdjacentElement, insertAdjacentText 가 있으니 알아두면 좋다.
+        </p>
+        <br />
+        <br />
+        <p class="result">
+          글쓴이의 경우 DOM 함수는 Container 역할을 하는 DOM 을 생성하고 추가할 때 사용한다.
+          많은 데이터들이 동적으로 추가하는 경우에는 문자열 조합을 통해서 insertAdjacentHTML 를 사용한다.
+          속도 차이가 별로 나지 않는 것들에 대해서는 개발하는 방식, 유지보수, 유연성 등을 고려해서 적합한 것을 사용하길 바란다.
+        </p>
+        <br />
+        <br />
+        <p>
+          테스트 환경 - i7 7세대, 16기가, IE11
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
+<footer>
+  <p>
+    프론트엔드 개발자
+    <br />
+    E-mail: nyg4628@gmail.com
+  </p>
+</footer>
+<script>
+  window.addEventListener('load', function () {
+    G.activeMenu(2);
+  });
+</script>
+<script src="main.bundle.js"></script></body>
+</html>

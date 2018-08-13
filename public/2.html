@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <title>get elements by id, class, tag, css selector</title>
+<link href="main.css" rel="stylesheet"></head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="/"></a>
+    <ul class="menu">
+      <li><a href="/">Javascript</a></li>
+      <li><a href="/category/javascript/beginner.html" href="javascript:void(0);">초급</a></li>
+      <li><a href="/category/javascript/intermediate.html" href="javascript:void(0);">중급</a></li>
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">고급</a></li>
+      <!-- <li><a href="/category/javascript/advanced.html" class="disabled" href="javascript:void(0);">고급</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">플러그인 만들기</a></li>
+      <!-- <li><a href="/category/javascript/plugin.html" class="disabled" href="javascript:void(0);">플러그인 만들기</a></li> -->
+      <li class="disabled"><a href="javascript:void(0);" href="javascript:void(0);">저장소</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="wrap">
+  <main>
+    <article class="header">
+  <div>
+    <h1>Get elements by id, class, tag, css selector</h1>
+  </div>
+</article>
+    <div class="container">
+      <div class="content post">
+        <h2>목차</h2>
+        <div class="items-list">
+          <ol>
+            <li>getElementById</li>
+            <li>getElementsByClassName</li>
+            <li>getElementsByTagName</li>
+            <li>querySelector</li>
+            <li>querySelectorAll</li>
+          </ol>
+        </div>
+        <div class="item">
+          <h3>getElementById</h3>
+          <h4>document.getElementById(id)</h4>
+          <h5>id - 가져올 요소의 id</h5>
+          <p>
+            입력한 id 를 가지고 있는 요소를 반환한다. 없을 경우 null 을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var phoneElement = document.getElementById('phone');
+  var addressElement = document.getElementById('address');
+    
+</code></pre>
+        </div>
+        <div class="item">
+          <h3>getElementsByClassName</h3>
+          <h4>rootElement.getElementsByClassName(className)</h4>
+          <h5>rootElement - 가져올 요소들의 root element</h5>
+          <h5>className - 가져올 요소들의 class 명</h5>
+          <p>
+            입력한 class 를 가지고 있는 요소들을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var rows = document.getElementsByClassName('row');
+  var requireElements = document.getElementById('login-form').getElementsByClassName('state-required');
+    
+</code></pre>
+        </div>
+        <div class="item">
+          <h3>getElementsByTagName</h3>
+          <h4>rootElement.getElementsByTagName(tagName)</h4>
+          <h5>rootElement - 가져올 요소들의 root element</h5>
+          <h5>tagName - 가져올 요소들의 tag 명</h5>
+          <p>
+            입력한 tag 를 가지고 있는 요소들을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var divElements = document.getElementsByTagName('div');
+  var inputElementsInLoginForm = document.getElementById('login-form').getElementsByTagName('input');
+    
+</code></pre>
+        </div>
+        <div class="item">
+          <h3>querySelector</h3>
+          <h4>rootElement.querySelector(selector)</h4>
+          <h5>rootElement - 가져올 요소의 root element</h5>
+          <h5>selector - 가져올 요소의 css selector</h5>
+          <p>
+            입력한 selector 와 일치하는 요소를 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var formElement = document.querySelector('form');
+  var pwdInputInLoginForm1 = document.getElementById('login-form').querySelector('[type=password]');
+  var pwdInputInLoginForm2 = document.querySelector('#login-form [type=password]');
+    
+</code></pre>
+          <p class="alert">
+            아이디가 숫자로 시작할 경우 에러가 발생한다.
+          </p>
+        </div>
+        <div class="item">
+          <h3>querySelectorAll</h3>
+          <h4>rootElement.querySelectorAll(selector)</h4>
+          <h5>rootElement - 가져올 요소들의 root element</h5>
+          <h5>selector - 가져올 요소들의 css selector</h5>
+          <p>
+            입력한 selector 와 일치하는 요소들을 반환한다.
+          </p>
+<pre><code class="language-javascript">
+  var divElements = document.querySelectorAll('div');
+  var inputElementsInLoginForm1 = document.getElementById('login-form').querySelectorAll('input');
+  var inputElementsInLoginForm2 = document.querySelectorAll('#login-form input');
+    
+</code></pre>
+          <p class="alert">
+            아이디가 숫자로 시작할 경우 에러가 발생한다.
+          </p>
+        </div>
+        <br />
+        <br />
+        <br />
+        <h3 class="link">
+          <a href="https://www.w3schools.com/cssref/css_selectors.asp">CSS Selector 보러가기</a>
+        </h3>
+      </div>  
+    </div>
+  </main>
+  <section class="comment-list-pnl">
+  <div class="container">
+    <div class="subject-pnl">
+      <div class="subject">
+        Comments
+      </div>
+    </div>
+    <div class="comment-editor">
+      <div class="writor">
+        <span class="nickname">닉네임</span>
+        <input type="text" placeholder="Enter your nickname">
+      </div>
+      <div class="contents">
+        <div class="contents" contenteditable="true" data-placeholder="Add a comment..."><p><br /></p></div>
+      </div>
+      <div class="actions">
+        <button class="reset" type="button">Reset</button>
+        <button class="save" type="button">Save</button>
+      </div>
+    </div>
+    <ul class="comment-list">
+
+    </ul>
+  </div>
+</section>  
+</div>
+<footer>
+  <p>
+    프론트엔드 개발자
+    <br />
+    E-mail: nyg4628@gmail.com
+  </p>
+</footer>
+<script>
+  window.addEventListener('load', function () {
+    G.activeMenu(1);
+    G.initComment();
+  });
+</script>
+<script src="main.bundle.js"></script></body>
+</html>
