@@ -21,7 +21,7 @@ async function save(req, res) {
       const comments = await database.CommentModel.findCommentsByPost(post);
       res.json({ comments });
     }
-  } catch (e) { res.json({ error: e }); }
+  } catch (e) { res.json({ ...e }); }
 }
 
 /**
@@ -40,13 +40,13 @@ async function reply(req, res) {
       });
 
       const result = comment.save(async (err) => {
-        if (err) res.status(500).json({error: 'failed to add reply'});
+        // if (err) res.status(500).json({error: 'failed to add reply'});
         
-        const comments = await database.CommentModel.findAll();
+        const comments = await database.CommentModel.findCommentsByPost(req.body.post);
         res.json({ comments });
       });
     });
-  } catch (e) { res.json({ error: e }); }
+  } catch (e) { res.json({ ...e }); }
 }
 
 async function updateComment(req, res) {
@@ -55,10 +55,8 @@ async function updateComment(req, res) {
 
   try {
     await database.CommentModel.findCommentById(id, function (err, comment) {
-      console.dir(comment);
       comment.deleted_at = req.body.deleted_at;
       const result = comment.save(async (err) => {
-        console.dir(err);
         if (err) res.status(500).json({error: 'failed to add reply'});
         else {
           const comments = await database.CommentModel.findAll();
@@ -66,7 +64,7 @@ async function updateComment(req, res) {
         }
       });
     });
-  } catch (e) { res.json({ error: e }); }
+  } catch (e) { res.json({ ...e }); }
 }
 
 /**
@@ -83,7 +81,7 @@ async function commentsByPost(req, res) {
       res.json({ comments });
     }
 
-  } catch (e) { res.json({ success: false }); }
+  } catch (e) { res.json({ ...e }); }
 }
 
 /**
@@ -92,22 +90,15 @@ async function commentsByPost(req, res) {
 async function all(req, res) {
   const database = req.app.get('database');
 
-  if (database) {
-    try {
-      const result = await database.CommentModel.findAll();
-      
-      if (result) {
-        res.json({
-          comments: result
-        });
-      }
-
-    } catch (e) {
-      res.json({ success: false });
+  try {
+    const result = await database.CommentModel.findAll();
+    
+    if (result) {
+      res.json({
+        comments: result
+      });
     }
-  } else {
-    res.json({ success: false });
-  }
+  } catch (e) { res.json({ ...e }); }
 }
 
 function randomId() {
