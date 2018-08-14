@@ -1,52 +1,72 @@
 /**
- * 댓글 등록/저장
+ * 댓글 등록
  */
-async function save(req, res) {
+function save(req, res) {
   const database = req.app.get('database');
-  const {
-    nickname,
-    contents,
-    post
-  } = req.body;
 
   try {
-    const comment = new database.CommentModel({
-      nickname,
-      contents,
-      post
+    const newComment = new database.CommentModel({ ...req.body });
+    newComment.save((err, comment) => {
+      if (err) {
+        res.status(500).json({ error: 'failed to register comment' });
+        return true;
+      }
+
+      const { post } = comment;
+      database.CommentModel.findCommentsByCondition({ post }, (err, comments) => {
+        res.json({ comments });
+      });
     });
-    const result = await comment.save();
-    
-    if (result) {
-      const comments = await database.CommentModel.findCommentsByPost(post);
-      res.json({ comments });
-    }
-  } catch (e) { res.json({ ...e }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 }
 
 /**
- * 댓글 답변 등록/저장
+ * 댓글 답변 등록
  */
-async function reply(req, res) {
+function reply(req, res) {
   const database = req.app.get('database');
   const { id } = req.query;
 
   try {
-    await database.CommentModel.findCommentById(id, function (err, comment) {
+    database.CommentModel.findCommentById(id, function (err, comment) {
+      if (err) {
+        res.status(404).json({ error: 'failed to register reply' });
+        return true;
+      }
+
       comment.children.push({
         ...req.body,
         _id: randomId(),
         created_at: new Date().toISOString()
       });
 
-      const result = comment.save(async (err) => {
-        // if (err) res.status(500).json({error: 'failed to add reply'});
+      comment.save((err) => {
+        if (err) {
+          res.status(500).json({ error: 'failed to register reply' });
+          return true;
+        }
         
-        const comments = await database.CommentModel.findCommentsByPost(req.body.post);
-        res.json({ comments });
+        database.CommentModel.findCommentsByCondition({ post: req.body.post }, (err, comments) => {
+          res.json({ comments });
+        });
       });
     });
-  } catch (e) { res.json({ ...e }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
+}
+
+
+/**
+ * 코멘트들 가져오기 (포스트 이름에 의한, 전체)
+ */
+function commentsByPost(req, res) {
+  const database = req.app.get('database');
+  const { post } = req.query;
+
+  try {
+    database.CommentModel.findCommentsByCondition(post && { post } || {}, (err, comments) => {
+      res.json({ comments });
+    });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 }
 
 async function updateComment(req, res) {
@@ -57,48 +77,14 @@ async function updateComment(req, res) {
     await database.CommentModel.findCommentById(id, function (err, comment) {
       comment.deleted_at = req.body.deleted_at;
       const result = comment.save(async (err) => {
-        if (err) res.status(500).json({error: 'failed to add reply'});
+        if (err) res.status(500).json({ error: 'failed to add reply' });
         else {
           const comments = await database.CommentModel.findAll();
           res.json({ comments });
         }
       });
     });
-  } catch (e) { res.json({ ...e }); }
-}
-
-/**
- * 댓글 등록/저장
- */
-async function commentsByPost(req, res) {
-  const database = req.app.get('database');
-  const { post } = req.query;
-
-  try {
-    const comments = await database.CommentModel.findCommentsByPost(post);
-    
-    if (comments) {
-      res.json({ comments });
-    }
-
-  } catch (e) { res.json({ ...e }); }
-}
-
-/**
- * 모든 댓글 가져오기
- */
-async function all(req, res) {
-  const database = req.app.get('database');
-
-  try {
-    const result = await database.CommentModel.findAll();
-    
-    if (result) {
-      res.json({
-        comments: result
-      });
-    }
-  } catch (e) { res.json({ ...e }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 }
 
 function randomId() {
@@ -115,6 +101,5 @@ module.exports = {
   save,
   reply,
   commentsByPost,
-  all,
   updateComment,
 }

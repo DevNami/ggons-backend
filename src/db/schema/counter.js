@@ -14,8 +14,8 @@ Schema.createSchema = function (mongoose, autoIncrement) {
     incrementBy: 1
   });
 
-  CounterSchema.statics.total = function () {
-    return this.find();
+  CounterSchema.statics.total = function (callback) {
+    return this.find({}, callback);
   }
 
   return CounterSchema;

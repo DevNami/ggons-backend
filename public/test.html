@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <title></title>
+<body>
+  <script>
+    
+    function allComment() {
+      const req = new XMLHttpRequest();
+      req.open('GET', 'http://localhost:8001/api/comment/comments');
+      req.onreadystatechange = function () {
+        if (req.readyState === 4) {
+          const res = JSON.parse(req.responseText);
+          if(req.status === 200) {
+            console.log(res);
+          }
+          else {
+            console.log(res);
+          }
+        }
+      };
+      req.send(null);
+    }
+
+    function commentsByPost(post) {
+      const req = new XMLHttpRequest();
+      req.open('GET', 'http://localhost:8001/api/comment/comments?post='+post);
+      req.onreadystatechange = () => {
+        if (req.readyState === 4) {
+          const res = JSON.parse(req.responseText);
+          if(req.status === 200) {
+            console.log(res);
+          }
+          else {
+            console.log(res);
+          }
+        }
+      };
+      req.send(null);
+    }
+
+    function saveComment(params) {
+      const req = new XMLHttpRequest();
+      req.open('POST', 'http://localhost:8001/api/comment/save');
+      req.setRequestHeader('Content-Type', 'application/json');
+      req.onreadystatechange = () => {
+        if (req.readyState === 4) {
+          const res = JSON.parse(req.responseText);
+          if(req.status === 200) {
+            console.log(res);
+          }
+          else {
+            console.log(res);
+          }
+        }
+      };
+
+      req.send(JSON.stringify(params));
+    }
+
+    function saveReply(params) {
+      const req = new XMLHttpRequest();
+      req.open('PUT', 'http://localhost:8001/api/comment/reply?id=' + params.id);
+      req.setRequestHeader('Content-Type', 'application/json');
+      req.onreadystatechange = () => {
+        if (req.readyState === 4) {
+          const res = JSON.parse(req.responseText);
+          if(req.status === 200) {
+            console.log(res);
+          }
+          else {
+            console.log(res);
+          }
+        }
+      };
+
+      req.send(JSON.stringify(params));
+    }
+
+  </script>
+</body>
+</html>

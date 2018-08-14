@@ -37,12 +37,12 @@ Schema.createSchema = function (mongoose, autoIncrement) {
     incrementBy: 1
   });
 
-  CommentSchema.statics.findCommentsByPost = function (post) {
-    return this.find({ post });
+  CommentSchema.statics.findCommentsByCondition = function (condition, callback) {
+    return this.find(condition, callback);
   }
 
-  CommentSchema.statics.findAll = function () {
-    return this.find();
+  CommentSchema.statics.findAll = function (callback) {
+    return this.find({}, callback);
   }
 
   CommentSchema.statics.findCommentById = function (id, callback) {
